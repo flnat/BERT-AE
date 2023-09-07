@@ -4,7 +4,7 @@ Anomaly-Detection in system logs.
 
 ## Description
 
-![Overview of the BERT-AE Architecture](./figures/bert_ae.pdf)
+![Overview of the BERT-AE Architecture](./figures/bert_ae.svg)
 
 
 ## Setup
