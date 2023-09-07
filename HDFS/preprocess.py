@@ -32,7 +32,7 @@ def extract_template(features: pd.DataFrame):
 
     start_time = time.time()
     batch_start_time = start_time
-    batch_size = 10000
+    batch_size = 100000
 
     parsed_logs = []
     for idx, line in features.iterrows():
@@ -66,9 +66,17 @@ def extract_template(features: pd.DataFrame):
 
 
 def group_sequences(features: pd.DataFrame) -> pd.DataFrame:
-    return features.groupby("blk_id")["event_id"]. \
+    features = features.groupby("blk_id")["event_id"]. \
         apply(list). \
-        reset_index(name="new")
+        reset_index(name="event_seq")
+
+    features["event_seq"] = features["event_seq"].astype("string")
+
+    # TorchText Vocab & Sklearn CountVectorizer except a Sequence represented as a string.
+    # Therefore, we concatenate the events to a single string.
+    features["event_seq"] = features["event_seq"].str.replace(r"[\[\],]+", "", regex=True)
+
+    return features
 
 
 if __name__ == "__main__":
@@ -77,4 +85,3 @@ if __name__ == "__main__":
     logs = group_sequences(logs)
     logs.to_csv("./data/parsed_logs.csv", index=False)
     labels.to_csv("./data/labels.csv", index=False)
-
