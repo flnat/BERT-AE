@@ -26,7 +26,7 @@ class BagOfWords:
 
         if ngramm_range is not None:
             pipeline = Pipeline(steps=[
-                ("CountVectorizer", CountVectorizer(ngram_range=ngramm_range, token_pattern="\d")),
+                ("CountVectorizer", CountVectorizer(ngram_range=ngramm_range, token_pattern=r"\d+")),
                 ("TF-IDF", TfidfTransformer())
             ])
             transformer = ColumnTransformer(
@@ -36,7 +36,7 @@ class BagOfWords:
 
         else:
             pipeline = Pipeline(steps=[
-                ("CountVectorizer", CountVectorizer(ngram_range=ngramm_range, token_pattern="\d")),
+                ("CountVectorizer", CountVectorizer(ngram_range=ngramm_range, token_pattern=r"\d+")),
                 ("TF-IDF", TfidfTransformer())
             ])
             transformer = ColumnTransformer(
