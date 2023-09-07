@@ -160,4 +160,4 @@ cython_debug/
 #.idea/
 
 # Ignore MLRuns directory
-mlruns/
+/mlruns/
