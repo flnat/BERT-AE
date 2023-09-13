@@ -1,7 +1,6 @@
 ### Parameter Documentation for BERT-AE
 
-Configuration & Hyperparameters of BERT-AE are set through the
-`ae_model.json`, `ae_training.json`, `bert_model.json`, `bert_training.json`,
+Configuration & Hyperparameters of BERT-AE are set through the `model_config.json`, `training_config.json` and
 `data_config.json` config files
 
 `data_config.json`
