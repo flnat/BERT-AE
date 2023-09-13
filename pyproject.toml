@@ -19,7 +19,7 @@ pyod = "^1.0.9"
 tqdm = "^4.65.0"
 pythresh = "^0.3.1"
 pybind11 = "^2.10.4"
-requests = "2.27.1"
+requests = "2.31.0"
 lightning = "^2.0.2"
 torchtext = "^0.15.2"
 torch = { version = "^2.0.1", source = "torch-cpu" }
