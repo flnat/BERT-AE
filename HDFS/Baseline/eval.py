@@ -59,7 +59,6 @@ def plot_complete_plots(fitted_models: list, model_names: list[str], plot_metric
 
     df = pd.DataFrame({"y_true": y_test.tolist()})
 
-
     for name, model in zip(model_names, fitted_models):
         preds = model.decision_function(x_test)
         df[name] = preds.tolist()
@@ -126,11 +125,19 @@ if __name__ == "__main__":
     models = [ocsvm.OCSVM, iforest.IForest, knn.KNN, ecod.ECOD, gmm.GMM]
     model_name = ["One-Class SVM", "IsolationForest", "KNN", "ECOD", "Gaussian Mixture"]
     fitted_models = []
+
+    # Create new mlflow experiment to log the models, if not already exists
+    if mlflow.get_experiment_by_name("hdfs_baselines") is None:
+        experiment_id = mlflow.create_experiment("hdfs_baselines")
+    else:
+        experiment_id = mlflow.get_experiment_by_name("hdfs_baselines").experiment_id
+
+
     for name, model, grid in zip(model_name, models, grids):
         estim, params, results, plots = loop(model, grid, x_train=data.x_train, x_test=data.x_test,
                                              y_test=data.y_test, x_val=data.x_val, y_val=data.y_val)
 
-        with mlflow.start_run(experiment_id="2634829723204879", run_name=name):
+        with mlflow.start_run(experiment_id=experiment_id, run_name=name):
             mlflow.log_metrics(results)
             mlflow.log_params(params)
 
@@ -145,12 +152,12 @@ if __name__ == "__main__":
     gc.collect()
     # Make unified roc & pr rc plots
     roc_plot, roc_df = plot_complete_plots(fitted_models, model_name,
-                                   metrics.roc_curve, "ROC", metrics.roc_auc_score,
-                                   "AUROC", data.x_test, data.y_test)
+                                           metrics.roc_curve, "ROC", metrics.roc_auc_score,
+                                           "AUROC", data.x_test, data.y_test)
     pr_rc_plot, _ = plot_complete_plots(fitted_models, model_name,
-                                     metrics.precision_recall_curve, "Precision-Recall Curve",
-                                     metrics.average_precision_score,
-                                     "Average Precision", data.x_test, data.y_test)
+                                        metrics.precision_recall_curve, "Precision-Recall Curve",
+                                        metrics.average_precision_score,
+                                        "Average Precision", data.x_test, data.y_test)
 
     last_run = mlflow.last_active_run().info.run_id
 
