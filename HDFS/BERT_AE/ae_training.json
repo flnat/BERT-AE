@@ -1,0 +1,11 @@
+{
+  "early_stopping_metric": "val_loss",
+  "early_stopping_objective": "min",
+  "early_stopping_patience": 1,
+  "early_stopping_min_delta": 1e-2,
+  "accelerator": "cpu",
+  "max_epochs": 1,
+  "checkpoint_dir": "./HDFS/BERT-AE/checkpoints",
+  "experiment_name": "./BERT-AE-HDFS/",
+  "batch_size": 8
+}

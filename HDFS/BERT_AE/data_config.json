@@ -1,0 +1,20 @@
+{
+  "parsed_logs": "./HDFS/data/parsed_logs.csv",
+  "feature_column": "event_seq",
+  "semi_supervised": true,
+  "labels": "./HDFS/data/labels.csv",
+  "label_column": "label",
+  "join_key": "blk_id",
+  "batch_size": 8,
+  "splits": [
+    0.01,
+    0.19,
+    0.8
+  ],
+  "vocab_min_freq": 1,
+  "vocab_max_size": 10000,
+  "max_seq_length": 512,
+  "mask_ratio": 0.65,
+  "rng_seed": 42,
+  "split_mode": "uncontaminated"
+}

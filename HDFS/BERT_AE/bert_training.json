@@ -1,0 +1,12 @@
+{
+  "max_epochs": 1,
+  "enable_early_stopping": true,
+  "early_stopping_metric": "val_loss",
+  "early_stopping_objective": "min",
+  "early_stopping_patience": 1,
+  "early_stopping_min_delta": 0.01,
+  "accelerator": "cpu",
+  "enable_checkpointing": true,
+  "experiment_name": "./BERT-HDFS",
+  "checkpoint_dir": "./HDFS/BERT-AE/checkpoint"
+}

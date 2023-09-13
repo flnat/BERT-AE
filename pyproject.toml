@@ -21,8 +21,8 @@ pythresh = "^0.3.1"
 pybind11 = "^2.10.4"
 requests = "2.27.1"
 lightning = "^2.0.2"
-torchtext = "^0.14.0"
-torch = { version = "^1.13.1", source = "torch-cpu" }
+torchtext = "^0.15.2"
+torch = { version = "^2.0.1", source = "torch-cpu" }
 pytest = "^7.3.1"
 drain3 = "^0.9.11"
 statsmodels = "^0.14.0"

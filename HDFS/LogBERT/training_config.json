@@ -1,0 +1,13 @@
+{
+  "max_epochs": 1,
+  "enable_early_stopping": true,
+  "early_stopping_metric": "combined_loss_val",
+  "early_stopping_objective": "min",
+  "early_stopping_patience": 5,
+  "early_stopping_min_delta": 0.01,
+  "accelerator": "cpu",
+  "enable_checkpointing": true,
+  "experiment_name": "LogBERT-HDFS",
+  "predictions_dir": "./predictions/",
+  "checkpoint_dir": "./checkpoints/"
+}
