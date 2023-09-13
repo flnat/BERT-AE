@@ -38,7 +38,7 @@ Configuration & Hyperparameters of BERT-AE are set through the
 `training_config.json`
  - max_epochs: Maximal training epochs during Pre-Training
  - enable_early_stopping: Flag to enable early_stopping, if `False` `trained_epochs == max_epochs`
- - early_stopping_metric: Which metric to use for early stopping, for the Pre-Training only `val_loss` is available
+ - early_stopping_metric: Which metric to use for early stopping
  - early_stopping_patience: Patience for early_stopping
  - early_stopping_min_delta: Minimal difference for early stopping
  - accelerator: Device on which to train, `{cpu, gpu}`
