@@ -6,6 +6,6 @@
   "accelerator": "cpu",
   "max_epochs": 1,
   "checkpoint_dir": "./HDFS/BERT-AE/checkpoints",
-  "experiment_name": "./BERT-AE-HDFS/",
+  "experiment_name": "BERT-AE-HDFS",
   "batch_size": 8
 }

@@ -7,6 +7,6 @@
   "early_stopping_min_delta": 0.01,
   "accelerator": "cpu",
   "enable_checkpointing": true,
-  "experiment_name": "./BERT-HDFS",
+  "experiment_name": "BERT-HDFS",
   "checkpoint_dir": "./HDFS/BERT-AE/checkpoint"
 }

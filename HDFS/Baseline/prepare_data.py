@@ -1,11 +1,10 @@
-import numpy as np
 import pandas as pd
-from sklearn.compose import ColumnTransformer
-from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
-from sklearn.pipeline import Pipeline
+from sklearn.feature_extraction.text import TfidfVectorizer
 
 from src.utils.model_selection import random_split
 
+
+# Dummy function to replace sklearn tokenizer and preprocesser which only get in the way
 
 class BagOfWords:
     def __init__(self, features: str = "./HDFS/data/parsed_logs.csv", labels: str = "./HDFS/data/labels.csv",
@@ -16,49 +15,44 @@ class BagOfWords:
         self.features = features
         self.labels = labels
 
+        self.x_train, self.x_val, self.x_test = None, None, None
+        self.y_train, self.y_val, self.y_test = None, None, None
+
 
     def fetch_data(self):
         logs = pd.read_csv(self.features)
         labels = pd.read_csv(self.labels)
         # Split train/val/test, train-set contains no anomalies.
-
         return random_split(parsed_data=logs, labels=labels, join_key="blk_id",
-                            label_encoding=(0, 1), mode="uncontaminated", sizes=[.01, 0.19, .8],
-                            rng_seed=self.rng_seed)
+                            label_encoding=(0, 1), mode="uncontaminated", sizes=[.01, 0.19, .8])
 
 
     def preprocess(self, train, val, test, ngramm_range: tuple | None = None):
+        # Dummy function to replace sklearn tokenizer and preprocessor which only get in the way
+        _dummy_fun = lambda x: x
+
+        idf_params = {
+            "input": "content",
+            "norm": None,
+            "analyzer": "char",
+            "preprocessor": _dummy_fun
+        }
         if ngramm_range is not None:
-            pipeline = Pipeline(steps=[
-                ("CountVectorizer", CountVectorizer(ngram_range=ngramm_range, token_pattern=r"\d+")),
-                ("TF-IDF", TfidfTransformer(norm=None))
-            ])
-            transformer = ColumnTransformer(
-                [
-                    ("bow", pipeline, "event_seq")
-                ], sparse_threshold=0)
+            idf_params[ngramm_range] = ngramm_range
 
-        else:
-            pipeline = Pipeline(steps=[
-                ("CountVectorizer", CountVectorizer()),
-                ("TF-IDF", TfidfTransformer(norm=None))
-            ])
-            transformer = ColumnTransformer(
-                [
-                    ("bow", pipeline, "event_seq")
-                ], sparse_threshold=0)
+        vectorizer = TfidfVectorizer(**idf_params)
+        vectorizer.fit(train.event_seq)
 
-        pipe_model = transformer.fit(train)
+        train = vectorizer.transform(train.event_seq)
+        val = vectorizer.transform(val.event_seq)
+        test = vectorizer.transform(test.event_seq)
 
-        train = pipe_model.transform(train)
-        test = pipe_model.transform(test)
-        val = pipe_model.transform(val)
-
-        return train, val, test
+        # Cast to dense memory representation
+        return train.toarray(), val.toarray(), test.toarray()
 
 
     def prepare(self):
         train, val, test = self.fetch_data()
 
         self.y_train, self.y_val, self.y_test = train.label, val.label, test.label
-        self.x_train, self.x_val, self.x_test = self.preprocess(train, val, test, ngramm_range=self.ngramm_range)
+        self.x_train, self.x_val, self.x_test = self.preprocess(train, val, test)

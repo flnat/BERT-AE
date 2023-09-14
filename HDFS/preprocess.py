@@ -61,7 +61,6 @@ def extract_template(features: pd.DataFrame):
         f"{len(log_parser.drain.clusters)} clusters")
 
     parsed_logs = pd.DataFrame(parsed_logs)
-    parsed_logs["event_id"] = parsed_logs["event_id"].astype("category").cat.codes
     return parsed_logs
 
 
@@ -73,7 +72,8 @@ def group_sequences(features: pd.DataFrame) -> pd.DataFrame:
     features["event_seq"] = features["event_seq"].astype("string")
 
     # TorchText Vocab & Sklearn CountVectorizer except a Sequence represented as a string.
-    # Therefore, we concatenate the events to a single string.
+    # Therefore, we concatenate the events to a single string, where the single tokens are separated by
+    # whitespace
     features["event_seq"] = features["event_seq"].str.replace(r"[\[\],]+", "", regex=True)
 
     return features

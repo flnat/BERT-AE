@@ -51,7 +51,7 @@ def loop(model, param_grid: dict, x_train: np.ndarray, x_val: np.ndarray, y_val:
 
 
 def plot_complete_plots(fitted_models: list, model_names: list[str], plot_metric, plot_name, reduced_metric,
-                        reduced_name, x_test, y_test):
+                        x_test, y_test):
     # fig = plt.figure(figsize=(9, 4.8))
     fig = plt.figure()
     fig.set_dpi(1200)
@@ -151,20 +151,14 @@ if __name__ == "__main__":
         fitted_models.append(estim)
     gc.collect()
     # Make unified roc & pr rc plots
-    roc_plot, roc_df = plot_complete_plots(fitted_models, model_name,
-                                           metrics.roc_curve, "ROC", metrics.roc_auc_score,
-                                           "AUROC", data.x_test, data.y_test)
-    pr_rc_plot, _ = plot_complete_plots(fitted_models, model_name,
-                                        metrics.precision_recall_curve, "Precision-Recall Curve",
-                                        metrics.average_precision_score,
-                                        "Average Precision", data.x_test, data.y_test)
+    roc_plot, roc_df = plot_complete_plots(fitted_models, model_name, metrics.roc_curve, "ROC", metrics.roc_auc_score,
+                                           data.x_test, data.y_test)
+    pr_rc_plot, _ = plot_complete_plots(fitted_models, model_name, metrics.precision_recall_curve,
+                                        "Precision-Recall Curve", metrics.average_precision_score, data.x_test,
+                                        data.y_test)
 
     last_run = mlflow.last_active_run().info.run_id
 
     with mlflow.start_run(run_id=last_run):
         mlflow.log_figure(roc_plot, "unified_roc.pdf")
         mlflow.log_figure(pr_rc_plot, "unified_pr_rc.pdf")
-
-        with tempfile.NamedTemporaryFile(suffix=".csv") as tmp:
-            roc_df.to_csv(tmp)
-            mlflow.log_artifact(tmp.name)
