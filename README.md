@@ -66,7 +66,7 @@ poetry shell
 mlflow server
 ```
 To server should be available under http://127.0.0.1:5000
-### Training
+### Training & Evaluation
 The training of the models is done through the `training.py` script
-under their respective directories. 
+under their respective directories. Evaluation of the models is also done in the same scripts.
 The scripts should be called from project root.
