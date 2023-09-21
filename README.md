@@ -70,3 +70,5 @@ To server should be available under http://127.0.0.1:5000
 The training of the models is done through the `training.py` script
 under their respective directories. 
 The scripts should be called from project root.
+
+The hyperparameters of the models are documented in a separate README in their respective directories.

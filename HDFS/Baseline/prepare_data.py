@@ -24,21 +24,23 @@ class BagOfWords:
         labels = pd.read_csv(self.labels)
         # Split train/val/test, train-set contains no anomalies.
         return random_split(parsed_data=logs, labels=labels, join_key="blk_id",
-                            label_encoding=(0, 1), mode="uncontaminated", sizes=[.01, 0.19, .8])
+                                label_encoding=(0, 1), mode="uncontaminated", sizes=[.01, 0.19, .8])
 
 
     def preprocess(self, train, val, test, ngramm_range: tuple | None = None):
         # Dummy function to replace sklearn tokenizer and preprocessor which only get in the way
-        _dummy_fun = lambda x: x
 
         idf_params = {
             "input": "content",
             "norm": None,
-            "analyzer": "char",
-            "preprocessor": _dummy_fun
+            "analyzer": lambda x: x.split(),
+            "min_df": 1,
+            "max_df": 1.0,
+            "smooth_idf": True,
+            "sublinear_tf": True
         }
         if ngramm_range is not None:
-            idf_params[ngramm_range] = ngramm_range
+            idf_params["ngramm_range"] = ngramm_range
 
         vectorizer = TfidfVectorizer(**idf_params)
         vectorizer.fit(train.event_seq)
