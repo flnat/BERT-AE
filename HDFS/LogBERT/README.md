@@ -1,6 +1,6 @@
-### Parameter Documentation for BERT-AE
+### Parameter Documentation for LogBERT
 
-Configuration & Hyperparameters of BERT-AE are set through the `model_config.json`, `training_config.json` and
+Configuration & Hyperparameters of LogBERT are set through the `model_config.json`, `training_config.json` and
 `data_config.json` config files
 
 `data_config.json`
