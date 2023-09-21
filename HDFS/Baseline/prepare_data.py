@@ -36,8 +36,6 @@ class BagOfWords:
             "analyzer": lambda x: x.split(),
             "min_df": 1,
             "max_df": 1.0,
-            "smooth_idf": True,
-            "sublinear_tf": True
         }
         if ngramm_range is not None:
             idf_params["ngramm_range"] = ngramm_range
